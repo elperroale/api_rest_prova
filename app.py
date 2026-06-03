@@ -32,21 +32,28 @@ def calcola_quadrato():
     tempo_fine = time.time()
     durata_calcolo = tempo_fine - tempo_inizio
     
+    print(f"il tempo impiegato del API è stato di {durata_calcolo}")
+
     return jsonify({
         "forma": "quadrato",
         "lato": lato,
-        "area": area_calcolata,
-        "tempo impiegato": round(durata_calcolo, 6)
+        "area": area_calcolata
     })
 
 @app.route('/calcola/cerchio', methods=['POST'])
 def calcola_cerchio():
+    tempo_inizo = time.time()
     dati = request.get_json()
     if not dati or 'raggio' not in dati:
         return jsonify({"errore": "Dati mancanti! Inserisci il 'raggio'."}), 400
         
     raggio = float(dati['raggio'])
     risultati = matematica.cerchio(raggio)
+
+    tempo_fine = time.time()
+    durata_calcolo = tempo_fine - tempo_inizo
+
+    print(f"il tempo impiegato del API è stato di {durata_calcolo}")
     
     return jsonify({
         "forma": "cerchio",
@@ -57,6 +64,7 @@ def calcola_cerchio():
 
 @app.route('/calcola/triangolo/area', methods=['POST'])
 def calcola_area_triangolo():
+    tempo_inizio = time.time()
     dati = request.get_json()
     if not dati or 'base' not in dati or 'altezza' not in dati:
         return jsonify({"errore": "Dati mancanti! Servono 'base' e 'altezza'."}), 400
@@ -64,6 +72,12 @@ def calcola_area_triangolo():
     base = float(dati['base'])
     altezza = float(dati['altezza'])
     area_calcolata = matematica.area_triangolo(base, altezza)
+
+    tempo_fine = time.time()
+    durata_calcolo = tempo_fine - tempo_inizio
+
+    print(f"il tempo impiegato del API è stato di {durata_calcolo}")
+
     
     return jsonify({
         "forma": "triangolo",
