@@ -2,7 +2,7 @@ import json
 from flask import Flask, jsonify, request
 import matematica
 from lista_errori import ERRORE_1
-
+import time
 app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
@@ -21,17 +21,22 @@ def ottieni_menu():
 
 @app.route('/calcola/quadrato', methods=['POST'])
 def calcola_quadrato():
+    tempo_inizio = time.time()
     dati = request.get_json()
     if not dati or 'lato' not in dati:
         return jsonify({"errore": "Dati mancanti! Inserisci il 'lato'."}), 400
         
     lato = float(dati['lato'])
     area_calcolata = matematica.quadrato(lato)
+
+    tempo_fine = time.time()
+    durata_calcolo = tempo_fine - tempo_inizio
     
     return jsonify({
         "forma": "quadrato",
         "lato": lato,
-        "area": area_calcolata
+        "area": area_calcolata,
+        "tempo impiegato": round(durata_calcolo, 6)
     })
 
 @app.route('/calcola/cerchio', methods=['POST'])
