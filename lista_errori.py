@@ -1,0 +1,1 @@
+ERRORE_1 = "Errore 1: file non trovato"
